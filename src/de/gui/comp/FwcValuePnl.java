@@ -6,282 +6,494 @@
  */
 package de.gui.comp;
 
-import javax.swing.JPanel;
-
 import java.awt.BorderLayout;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-
-import java.awt.GridBagLayout;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class FwcValuePnl extends JPanel
 {
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	
+	private JTextField txtName;
+	private JTextField txtWeigth;
+	private JTextField txtNEM;
+	private JTextField txtPrice;
 	private JTextField txtCat;
 	private JTextField txtBurnLeng;
 	private JTextField txtEffektHeigth;
-	private JTextField textField_4;
+	private JTextField txtCalibre;
 	private JTextField txtBAMNr;
 	private JTextField txtDim;
+	private JTextField txtPrjName;
+	private JTextField txtPrjCre;
+	private JTextField txtPrjLastEdit;
+	private JTextField txtPrjArt;
+	private JTextField txtPrjNEM;
+	private JTextField txtPrjBurnLen;
+	private JTextField txtPrjWire;
+	private JTextField txtPrjWeight;
+	private JTextField txtPrjPrice;
 	
 	public FwcValuePnl()
 	{
 		setLayout(new BorderLayout(0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		JPanel pnlSum = new JPanel();
-		JPanel pnlFwValue = new JPanel();
 		
-		pnlSum.setLayout(new BorderLayout(0, 0));
-		tabbedPane.addTab("Gesamt", null, pnlSum, null);
-		tabbedPane.addTab("Eigenschaften", null, pnlFwValue, null);
+		tabbedPane.addTab("Projekt", null, creProjPnl(), null);
+		tabbedPane.addTab("Eigenschaften", null, creValPnl(), null);
+		
+		add(tabbedPane);
+	}
+
+	private Component creProjPnl()
+	{
+		JPanel pnlProj = new JPanel();
+		JLabel lblPrjName = new JLabel("Projektname:");
+		txtPrjName = new JTextField();
+		JLabel lblPrjCre = new JLabel("Erstelldatum:");
+		txtPrjCre = new JTextField();
+		JLabel lblPrjLastEdit = new JLabel("Letzte \u00C4nderung:");
+		txtPrjLastEdit = new JTextField();
+		JSeparator separator = new JSeparator();
+		JLabel lblPrjArt = new JLabel("Ges. Anzahl:");
+		txtPrjArt = new JTextField();
+		JLabel lblPrjNEM = new JLabel("Ges. NEM:");
+		txtPrjNEM = new JTextField();
+		JLabel lblPrjBurnLen = new JLabel("Ges. Brenndauer:");
+		txtPrjBurnLen = new JTextField();
+		JLabel lblPrjWireUsed = new JLabel("Ges. Verbinder:");
+		txtPrjWire = new JTextField();
+		JLabel lblPrjWeight = new JLabel("Ges. Gewicht:");
+		txtPrjWeight = new JTextField();
+		JLabel lblPrjPrice = new JLabel("Ges. Preis:");
+		txtPrjPrice = new JTextField();
+
+		GridBagLayout gbl_pnlProj = new GridBagLayout();
+		gbl_pnlProj.columnWidths = new int[]{46, 86, 46, 217, 0};
+		gbl_pnlProj.rowHeights = new int[]{20, 20, 2, 20, 20, 20, 0};
+		gbl_pnlProj.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_pnlProj.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		pnlProj.setLayout(gbl_pnlProj);
+		
+		GridBagConstraints gbc_lblPrjName = new GridBagConstraints();
+		gbc_lblPrjName.anchor = GridBagConstraints.WEST;
+		gbc_lblPrjName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPrjName.gridx = 0;
+		gbc_lblPrjName.gridy = 0;
+		pnlProj.add(lblPrjName, gbc_lblPrjName);
+		
+		txtPrjName.setEnabled(false);
+		GridBagConstraints gbc_txtPrjName = new GridBagConstraints();
+		gbc_txtPrjName.anchor = GridBagConstraints.NORTH;
+		gbc_txtPrjName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPrjName.insets = new Insets(0, 0, 5, 0);
+		gbc_txtPrjName.gridwidth = 3;
+		gbc_txtPrjName.gridx = 1;
+		gbc_txtPrjName.gridy = 0;
+		pnlProj.add(txtPrjName, gbc_txtPrjName);
+		txtPrjName.setColumns(10);
+		
+		GridBagConstraints gbc_lblPrjCre = new GridBagConstraints();
+		gbc_lblPrjCre.anchor = GridBagConstraints.WEST;
+		gbc_lblPrjCre.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPrjCre.gridx = 0;
+		gbc_lblPrjCre.gridy = 1;
+		pnlProj.add(lblPrjCre, gbc_lblPrjCre);
+		
+		txtPrjCre.setEnabled(false);
+		GridBagConstraints gbc_txtPrjCre = new GridBagConstraints();
+		gbc_txtPrjCre.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPrjCre.anchor = GridBagConstraints.NORTH;
+		gbc_txtPrjCre.insets = new Insets(0, 0, 5, 5);
+		gbc_txtPrjCre.gridx = 1;
+		gbc_txtPrjCre.gridy = 1;
+		pnlProj.add(txtPrjCre, gbc_txtPrjCre);
+		txtPrjCre.setColumns(10);
+		
+		GridBagConstraints gbc_lblPrjLastEdit = new GridBagConstraints();
+		gbc_lblPrjLastEdit.anchor = GridBagConstraints.WEST;
+		gbc_lblPrjLastEdit.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPrjLastEdit.gridx = 2;
+		gbc_lblPrjLastEdit.gridy = 1;
+		pnlProj.add(lblPrjLastEdit, gbc_lblPrjLastEdit);
+		
+		txtPrjLastEdit.setEnabled(false);
+		GridBagConstraints gbc_txtPrjLastEdit = new GridBagConstraints();
+		gbc_txtPrjLastEdit.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPrjLastEdit.anchor = GridBagConstraints.NORTH;
+		gbc_txtPrjLastEdit.insets = new Insets(0, 0, 5, 0);
+		gbc_txtPrjLastEdit.gridx = 3;
+		gbc_txtPrjLastEdit.gridy = 1;
+		pnlProj.add(txtPrjLastEdit, gbc_txtPrjLastEdit);
+		txtPrjLastEdit.setColumns(10);
+		
+		GridBagConstraints gbc_separator = new GridBagConstraints();
+		gbc_separator.anchor = GridBagConstraints.NORTH;
+		gbc_separator.fill = GridBagConstraints.HORIZONTAL;
+		gbc_separator.insets = new Insets(0, 0, 5, 0);
+		gbc_separator.gridwidth = 4;
+		gbc_separator.gridx = 0;
+		gbc_separator.gridy = 2;
+		pnlProj.add(separator, gbc_separator);
+		
+		GridBagConstraints gbc_lblPrjArt = new GridBagConstraints();
+		gbc_lblPrjArt.anchor = GridBagConstraints.WEST;
+		gbc_lblPrjArt.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPrjArt.gridx = 0;
+		gbc_lblPrjArt.gridy = 3;
+		pnlProj.add(lblPrjArt, gbc_lblPrjArt);
+		
+		txtPrjArt.setEnabled(false);
+		GridBagConstraints gbc_txtPrjArt = new GridBagConstraints();
+		gbc_txtPrjArt.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPrjArt.anchor = GridBagConstraints.NORTH;
+		gbc_txtPrjArt.insets = new Insets(0, 0, 5, 5);
+		gbc_txtPrjArt.gridx = 1;
+		gbc_txtPrjArt.gridy = 3;
+		pnlProj.add(txtPrjArt, gbc_txtPrjArt);
+		txtPrjArt.setColumns(10);
+		
+		GridBagConstraints gbc_lblPrjNEM = new GridBagConstraints();
+		gbc_lblPrjNEM.anchor = GridBagConstraints.WEST;
+		gbc_lblPrjNEM.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPrjNEM.gridx = 2;
+		gbc_lblPrjNEM.gridy = 3;
+		pnlProj.add(lblPrjNEM, gbc_lblPrjNEM);
+		
+		txtPrjNEM.setEnabled(false);
+		GridBagConstraints gbc_txtPrjNEM = new GridBagConstraints();
+		gbc_txtPrjNEM.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPrjNEM.anchor = GridBagConstraints.NORTH;
+		gbc_txtPrjNEM.insets = new Insets(0, 0, 5, 0);
+		gbc_txtPrjNEM.gridx = 3;
+		gbc_txtPrjNEM.gridy = 3;
+		pnlProj.add(txtPrjNEM, gbc_txtPrjNEM);
+		txtPrjNEM.setColumns(10);
+		
+		GridBagConstraints gbc_lblPrjBurnLen = new GridBagConstraints();
+		gbc_lblPrjBurnLen.anchor = GridBagConstraints.WEST;
+		gbc_lblPrjBurnLen.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPrjBurnLen.gridx = 0;
+		gbc_lblPrjBurnLen.gridy = 4;
+		pnlProj.add(lblPrjBurnLen, gbc_lblPrjBurnLen);
+		
+		txtPrjBurnLen.setEnabled(false);
+		GridBagConstraints gbc_txtPrjBurnLen = new GridBagConstraints();
+		gbc_txtPrjBurnLen.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPrjBurnLen.anchor = GridBagConstraints.NORTH;
+		gbc_txtPrjBurnLen.insets = new Insets(0, 0, 5, 5);
+		gbc_txtPrjBurnLen.gridx = 1;
+		gbc_txtPrjBurnLen.gridy = 4;
+		pnlProj.add(txtPrjBurnLen, gbc_txtPrjBurnLen);
+		txtPrjBurnLen.setColumns(10);
+		
+		GridBagConstraints gbc_lblPrjWireUsed = new GridBagConstraints();
+		gbc_lblPrjWireUsed.anchor = GridBagConstraints.WEST;
+		gbc_lblPrjWireUsed.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPrjWireUsed.gridx = 2;
+		gbc_lblPrjWireUsed.gridy = 4;
+		pnlProj.add(lblPrjWireUsed, gbc_lblPrjWireUsed);
+		
+		txtPrjWire.setEnabled(false);
+		GridBagConstraints gbc_txtPrjWire = new GridBagConstraints();
+		gbc_txtPrjWire.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPrjWire.anchor = GridBagConstraints.NORTH;
+		gbc_txtPrjWire.insets = new Insets(0, 0, 5, 0);
+		gbc_txtPrjWire.gridx = 3;
+		gbc_txtPrjWire.gridy = 4;
+		pnlProj.add(txtPrjWire, gbc_txtPrjWire);
+		txtPrjWire.setColumns(10);
+		
+		GridBagConstraints gbc_lblPrjWeight = new GridBagConstraints();
+		gbc_lblPrjWeight.anchor = GridBagConstraints.WEST;
+		gbc_lblPrjWeight.insets = new Insets(0, 0, 0, 5);
+		gbc_lblPrjWeight.gridx = 0;
+		gbc_lblPrjWeight.gridy = 5;
+		pnlProj.add(lblPrjWeight, gbc_lblPrjWeight);
+		
+		txtPrjWeight.setEnabled(false);
+		GridBagConstraints gbc_txtPrjWeight = new GridBagConstraints();
+		gbc_txtPrjWeight.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPrjWeight.anchor = GridBagConstraints.NORTH;
+		gbc_txtPrjWeight.insets = new Insets(0, 0, 0, 5);
+		gbc_txtPrjWeight.gridx = 1;
+		gbc_txtPrjWeight.gridy = 5;
+		pnlProj.add(txtPrjWeight, gbc_txtPrjWeight);
+		txtPrjWeight.setColumns(10);
+		
+		GridBagConstraints gbc_lblPrjPrice = new GridBagConstraints();
+		gbc_lblPrjPrice.anchor = GridBagConstraints.WEST;
+		gbc_lblPrjPrice.insets = new Insets(0, 0, 0, 5);
+		gbc_lblPrjPrice.gridx = 2;
+		gbc_lblPrjPrice.gridy = 5;
+		pnlProj.add(lblPrjPrice, gbc_lblPrjPrice);
+		
+		txtPrjPrice.setEnabled(false);
+		GridBagConstraints gbc_txtPrjPrice = new GridBagConstraints();
+		gbc_txtPrjPrice.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPrjPrice.anchor = GridBagConstraints.NORTH;
+		gbc_txtPrjPrice.gridx = 3;
+		gbc_txtPrjPrice.gridy = 5;
+		pnlProj.add(txtPrjPrice, gbc_txtPrjPrice);
+		txtPrjPrice.setColumns(10);
+		
+		return new JScrollPane(pnlProj);
+	}
+
+	private Component creValPnl()
+	{
+		JPanel pnlFwValue = new JPanel();	
 		pnlFwValue.setLayout(new BorderLayout(0, 0));
-		
-		JPanel panel_1 = new JPanel();
-		pnlFwValue.add(new JScrollPane(panel_1));
+		JPanel pnlBackg = new JPanel();
+		JLabel lblName = new JLabel("Name:");
+		txtName = new JTextField();
+		JLabel lblWeigth = new JLabel("Gewicht (g):");
+		txtWeigth = new JTextField();
+		JLabel lblCreator = new JLabel("Hersteller:");
+		JComboBox<Object> cbCreator = new JComboBox<Object>();
+		JLabel lblEffektHeight = new JLabel("Effekth\u00F6he (m):");
+		JLabel lblNEM = new JLabel("NEM (g):");
+		txtEffektHeigth = new JTextField();
+		txtNEM = new JTextField();
+		txtBurnLeng = new JTextField();
+		JLabel lblPrice = new JLabel("Preis (\u20AC):");
+		JLabel lblBurnLeng = new JLabel("Brenndauer (sec):");
+		txtPrice = new JTextField();
+		txtCalibre = new JTextField();
+		JLabel lblCalibre = new JLabel("Kaliber (mm):");
+		JLabel lblBAMNr = new JLabel("BAM Nr.:");
+		txtBAMNr = new JTextField();
+		JLabel lblDim = new JLabel("Abmessungen:");
+		txtDim = new JTextField();
+		JLabel lblCat = new JLabel("Kategorie:");
+		txtCat = new JTextField();
+		JLabel lblDesc = new JLabel("Beschreibung:");
+		JPanel pnlDesc = new JPanel();
+		JTextArea txtADesc = new JTextArea();
+		JPanel pnlBtnProps = new JPanel();
+		JButton btnSaveProps = new JButton("Speichern");
+		JButton btnCancelProps = new JButton("Abbrechen");
+
+		// TODO Remove after using editor
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
+		GridBagConstraints gbc_lblName = new GridBagConstraints();
+		GridBagConstraints gbc_txtName = new GridBagConstraints();
+		GridBagConstraints gbc_lblWeigth = new GridBagConstraints();
+		GridBagConstraints gbc_txtWeigth = new GridBagConstraints();
+		GridBagConstraints gbc_cbCreator = new GridBagConstraints();
+		GridBagConstraints gbc_lblCreator = new GridBagConstraints();
+		GridBagConstraints gbc_lblEffektHeight = new GridBagConstraints();
+		GridBagConstraints gbc_txtEffektHeigth = new GridBagConstraints();
+		GridBagConstraints gbc_lblNEM = new GridBagConstraints();
+		GridBagConstraints gbc_txtNEM = new GridBagConstraints();
+		GridBagConstraints gbc_lblBurnLeng = new GridBagConstraints();
+		GridBagConstraints gbc_txtBurnLeng = new GridBagConstraints();
+		GridBagConstraints gbc_lblPrice = new GridBagConstraints();
+		GridBagConstraints gbc_txtPrice = new GridBagConstraints();
+		GridBagConstraints gbc_lblCalibre = new GridBagConstraints();
+		GridBagConstraints gbc_txtCalibre = new GridBagConstraints();
+		GridBagConstraints gbc_lblBAMNr = new GridBagConstraints();
+		GridBagConstraints gbc_txtBAMNr = new GridBagConstraints();
+		GridBagConstraints gbc_lblDim = new GridBagConstraints();
+		GridBagConstraints gbc_txtDim = new GridBagConstraints();
+		GridBagConstraints gbc_lblCat = new GridBagConstraints();
+		GridBagConstraints gbc_txtCat = new GridBagConstraints();
+		GridBagConstraints gbc_lblDesc = new GridBagConstraints();
+		GridBagConstraints gbc_pnlDesc = new GridBagConstraints();
+		
+		pnlFwValue.add(new JScrollPane(pnlBackg));
 		gbl_panel_1.columnWidths = new int[]{46, 40, 86, 50, 166, 0};
 		gbl_panel_1.rowHeights = new int[]{20, 20, 20, 20, 23, 20, 0, 0, 0};
 		gbl_panel_1.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		panel_1.setLayout(gbl_panel_1);
+		pnlBackg.setLayout(gbl_panel_1);
 		
-		JLabel lblName = new JLabel("Name:");
-		GridBagConstraints gbc_lblName = new GridBagConstraints();
 		gbc_lblName.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblName.insets = new Insets(0, 0, 5, 5);
 		gbc_lblName.gridx = 0;
 		gbc_lblName.gridy = 0;
-		panel_1.add(lblName, gbc_lblName);
+		pnlBackg.add(lblName, gbc_lblName);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.anchor = GridBagConstraints.NORTH;
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridwidth = 3;
-		gbc_textField.insets = new Insets(0, 0, 5, 0);
-		gbc_textField.gridx = 2;
-		gbc_textField.gridy = 0;
-		panel_1.add(textField, gbc_textField);
-		textField.setColumns(10);
+		gbc_txtName.anchor = GridBagConstraints.NORTH;
+		gbc_txtName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtName.gridwidth = 3;
+		gbc_txtName.insets = new Insets(0, 0, 5, 0);
+		gbc_txtName.gridx = 2;
+		gbc_txtName.gridy = 0;
+		pnlBackg.add(txtName, gbc_txtName);
+		txtName.setColumns(10);
 		
-		JLabel lblWeigth = new JLabel("Gewicht (g):");
-		GridBagConstraints gbc_lblWeigth = new GridBagConstraints();
 		gbc_lblWeigth.anchor = GridBagConstraints.WEST;
 		gbc_lblWeigth.gridwidth = 2;
 		gbc_lblWeigth.insets = new Insets(0, 0, 5, 5);
 		gbc_lblWeigth.gridx = 0;
 		gbc_lblWeigth.gridy = 1;
-		panel_1.add(lblWeigth, gbc_lblWeigth);
+		pnlBackg.add(lblWeigth, gbc_lblWeigth);
 		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.anchor = GridBagConstraints.NORTH;
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.gridx = 2;
-		gbc_textField_1.gridy = 1;
-		panel_1.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		gbc_txtWeigth.anchor = GridBagConstraints.NORTH;
+		gbc_txtWeigth.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtWeigth.insets = new Insets(0, 0, 5, 5);
+		gbc_txtWeigth.gridx = 2;
+		gbc_txtWeigth.gridy = 1;
+		pnlBackg.add(txtWeigth, gbc_txtWeigth);
+		txtWeigth.setColumns(10);
 		
-		JLabel lblCreator = new JLabel("Hersteller:");
-		GridBagConstraints gbc_lblCreator = new GridBagConstraints();
 		gbc_lblCreator.anchor = GridBagConstraints.WEST;
 		gbc_lblCreator.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCreator.gridx = 3;
 		gbc_lblCreator.gridy = 1;
-		panel_1.add(lblCreator, gbc_lblCreator);
+		pnlBackg.add(lblCreator, gbc_lblCreator);
+		gbc_cbCreator.anchor = GridBagConstraints.NORTH;
+		gbc_cbCreator.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbCreator.insets = new Insets(0, 0, 5, 0);
+		gbc_cbCreator.gridx = 4;
+		gbc_cbCreator.gridy = 1;
+		pnlBackg.add(cbCreator, gbc_cbCreator);
 		
-		JComboBox comboBox = new JComboBox();
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.anchor = GridBagConstraints.NORTH;
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
-		gbc_comboBox.gridx = 4;
-		gbc_comboBox.gridy = 1;
-		panel_1.add(comboBox, gbc_comboBox);
-		
-		JLabel lblEffektHeight = new JLabel("Effekth\u00F6he (m):");
-		GridBagConstraints gbc_lblEffektHeight = new GridBagConstraints();
 		gbc_lblEffektHeight.anchor = GridBagConstraints.WEST;
 		gbc_lblEffektHeight.gridwidth = 3;
 		gbc_lblEffektHeight.insets = new Insets(0, 0, 5, 5);
 		gbc_lblEffektHeight.gridx = 0;
 		gbc_lblEffektHeight.gridy = 2;
-		panel_1.add(lblEffektHeight, gbc_lblEffektHeight);
+		pnlBackg.add(lblEffektHeight, gbc_lblEffektHeight);
 		
-		txtEffektHeigth = new JTextField();
-		GridBagConstraints gbc_txtEffektHeigth = new GridBagConstraints();
 		gbc_txtEffektHeigth.anchor = GridBagConstraints.NORTH;
 		gbc_txtEffektHeigth.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtEffektHeigth.insets = new Insets(0, 0, 5, 5);
 		gbc_txtEffektHeigth.gridx = 2;
 		gbc_txtEffektHeigth.gridy = 2;
-		panel_1.add(txtEffektHeigth, gbc_txtEffektHeigth);
-		txtEffektHeigth.setColumns(10);
+		pnlBackg.add(txtEffektHeigth, gbc_txtEffektHeigth);
 		
-		JLabel lblNEM = new JLabel("NEM (g):");
-		GridBagConstraints gbc_lblNEM = new GridBagConstraints();
 		gbc_lblNEM.anchor = GridBagConstraints.WEST;
 		gbc_lblNEM.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNEM.gridx = 3;
 		gbc_lblNEM.gridy = 2;
-		panel_1.add(lblNEM, gbc_lblNEM);
+		pnlBackg.add(lblNEM, gbc_lblNEM);
 		
-		textField_2 = new JTextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.anchor = GridBagConstraints.NORTH;
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_2.gridx = 4;
-		gbc_textField_2.gridy = 2;
-		panel_1.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		gbc_txtNEM.anchor = GridBagConstraints.NORTH;
+		gbc_txtNEM.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtNEM.insets = new Insets(0, 0, 5, 0);
+		gbc_txtNEM.gridx = 4;
+		gbc_txtNEM.gridy = 2;
+		pnlBackg.add(txtNEM, gbc_txtNEM);
 		
-		JLabel lblBurnLeng = new JLabel("Brenndauer (sec):");
-		GridBagConstraints gbc_lblBurnLeng = new GridBagConstraints();
 		gbc_lblBurnLeng.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblBurnLeng.gridwidth = 3;
 		gbc_lblBurnLeng.insets = new Insets(0, 0, 5, 5);
 		gbc_lblBurnLeng.gridx = 0;
 		gbc_lblBurnLeng.gridy = 3;
-		panel_1.add(lblBurnLeng, gbc_lblBurnLeng);
+		pnlBackg.add(lblBurnLeng, gbc_lblBurnLeng);
 		
-		txtBurnLeng = new JTextField();
-		GridBagConstraints gbc_txtBurnLeng = new GridBagConstraints();
 		gbc_txtBurnLeng.anchor = GridBagConstraints.NORTH;
 		gbc_txtBurnLeng.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtBurnLeng.insets = new Insets(0, 0, 5, 5);
 		gbc_txtBurnLeng.gridx = 2;
 		gbc_txtBurnLeng.gridy = 3;
-		panel_1.add(txtBurnLeng, gbc_txtBurnLeng);
-		txtBurnLeng.setColumns(10);
+		pnlBackg.add(txtBurnLeng, gbc_txtBurnLeng);
 		
-		JLabel lblPrice = new JLabel("Preis (\u20AC):");
-		GridBagConstraints gbc_lblPrice = new GridBagConstraints();
 		gbc_lblPrice.anchor = GridBagConstraints.WEST;
 		gbc_lblPrice.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPrice.gridx = 3;
 		gbc_lblPrice.gridy = 3;
-		panel_1.add(lblPrice, gbc_lblPrice);
+		pnlBackg.add(lblPrice, gbc_lblPrice);
 		
-		textField_3 = new JTextField();
-		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-		gbc_textField_3.anchor = GridBagConstraints.NORTH;
-		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_3.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_3.gridx = 4;
-		gbc_textField_3.gridy = 3;
-		panel_1.add(textField_3, gbc_textField_3);
-		textField_3.setColumns(10);
+		gbc_txtPrice.anchor = GridBagConstraints.NORTH;
+		gbc_txtPrice.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPrice.insets = new Insets(0, 0, 5, 0);
+		gbc_txtPrice.gridx = 4;
+		gbc_txtPrice.gridy = 3;
+		pnlBackg.add(txtPrice, gbc_txtPrice);
 		
-		JLabel lblCalibre = new JLabel("Kaliber (mm):");
-		GridBagConstraints gbc_lblCalibre = new GridBagConstraints();
 		gbc_lblCalibre.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblCalibre.gridwidth = 2;
 		gbc_lblCalibre.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCalibre.gridx = 0;
 		gbc_lblCalibre.gridy = 4;
-		panel_1.add(lblCalibre, gbc_lblCalibre);
+		pnlBackg.add(lblCalibre, gbc_lblCalibre);
 		
-		textField_4 = new JTextField();
-		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-		gbc_textField_4.anchor = GridBagConstraints.SOUTH;
-		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_4.gridx = 2;
-		gbc_textField_4.gridy = 4;
-		panel_1.add(textField_4, gbc_textField_4);
-		textField_4.setColumns(10);
+		gbc_txtCalibre.anchor = GridBagConstraints.SOUTH;
+		gbc_txtCalibre.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtCalibre.insets = new Insets(0, 0, 5, 5);
+		gbc_txtCalibre.gridx = 2;
+		gbc_txtCalibre.gridy = 4;
+		pnlBackg.add(txtCalibre, gbc_txtCalibre);
 		
-		JLabel lblBAMNr = new JLabel("BAM Nr.:");
-		GridBagConstraints gbc_lblBAMNr = new GridBagConstraints();
 		gbc_lblBAMNr.anchor = GridBagConstraints.WEST;
 		gbc_lblBAMNr.insets = new Insets(0, 0, 5, 5);
 		gbc_lblBAMNr.gridx = 3;
 		gbc_lblBAMNr.gridy = 4;
-		panel_1.add(lblBAMNr, gbc_lblBAMNr);
+		pnlBackg.add(lblBAMNr, gbc_lblBAMNr);
 		
-		txtBAMNr = new JTextField();
-		GridBagConstraints gbc_txtBAMNr = new GridBagConstraints();
 		gbc_txtBAMNr.anchor = GridBagConstraints.NORTH;
 		gbc_txtBAMNr.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtBAMNr.insets = new Insets(0, 0, 5, 0);
 		gbc_txtBAMNr.gridx = 4;
 		gbc_txtBAMNr.gridy = 4;
-		panel_1.add(txtBAMNr, gbc_txtBAMNr);
-		txtBAMNr.setColumns(10);
+		pnlBackg.add(txtBAMNr, gbc_txtBAMNr);
 		
-		JLabel lblDim = new JLabel("Abmessungen:");
-		GridBagConstraints gbc_lblDim = new GridBagConstraints();
 		gbc_lblDim.anchor = GridBagConstraints.WEST;
 		gbc_lblDim.gridwidth = 2;
 		gbc_lblDim.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDim.gridx = 0;
 		gbc_lblDim.gridy = 5;
-		panel_1.add(lblDim, gbc_lblDim);
+		pnlBackg.add(lblDim, gbc_lblDim);
 		
-		txtDim = new JTextField();
-		GridBagConstraints gbc_txtDim = new GridBagConstraints();
 		gbc_txtDim.anchor = GridBagConstraints.NORTH;
 		gbc_txtDim.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtDim.insets = new Insets(0, 0, 5, 5);
 		gbc_txtDim.gridx = 2;
 		gbc_txtDim.gridy = 5;
-		panel_1.add(txtDim, gbc_txtDim);
-		txtDim.setColumns(10);
+		pnlBackg.add(txtDim, gbc_txtDim);
 		
-		JLabel lblCat = new JLabel("Kategorie:");
-		GridBagConstraints gbc_lblCat = new GridBagConstraints();
 		gbc_lblCat.anchor = GridBagConstraints.WEST;
 		gbc_lblCat.gridwidth = 2;
 		gbc_lblCat.insets = new Insets(0, 0, 5, 0);
 		gbc_lblCat.gridx = 3;
 		gbc_lblCat.gridy = 5;
-		panel_1.add(lblCat, gbc_lblCat);
+		pnlBackg.add(lblCat, gbc_lblCat);
 		
-		txtCat = new JTextField();
-		GridBagConstraints gbc_txtCat = new GridBagConstraints();
 		gbc_txtCat.anchor = GridBagConstraints.NORTH;
 		gbc_txtCat.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtCat.insets = new Insets(0, 0, 5, 0);
 		gbc_txtCat.gridx = 4;
 		gbc_txtCat.gridy = 5;
-		panel_1.add(txtCat, gbc_txtCat);
-		txtCat.setColumns(10);
+		pnlBackg.add(txtCat, gbc_txtCat);
 		
-		JLabel lblDesc = new JLabel("Beschreibung:");
-		GridBagConstraints gbc_lblDesc = new GridBagConstraints();
 		gbc_lblDesc.anchor = GridBagConstraints.WEST;
 		gbc_lblDesc.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDesc.gridx = 0;
 		gbc_lblDesc.gridy = 6;
-		panel_1.add(lblDesc, gbc_lblDesc);
+		pnlBackg.add(lblDesc, gbc_lblDesc);
 		
-		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridwidth = 5;
-		gbc_panel.insets = new Insets(0, 0, 0, 5);
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 7;
-		panel_1.add(panel, gbc_panel);
-		panel.setLayout(new BorderLayout(0, 0));
+		gbc_pnlDesc.fill = GridBagConstraints.BOTH;
+		gbc_pnlDesc.gridwidth = 5;
+		gbc_pnlDesc.insets = new Insets(0, 0, 0, 5);
+		gbc_pnlDesc.gridx = 0;
+		gbc_pnlDesc.gridy = 7;
 		
-		JTextArea textArea = new JTextArea();
-		panel.add(textArea, BorderLayout.CENTER);
-		add(tabbedPane);
+		pnlBackg.add(pnlDesc, gbc_pnlDesc);
+		pnlDesc.setLayout(new BorderLayout(0, 0));
+		
+		pnlDesc.add(pnlBtnProps, BorderLayout.SOUTH);
+		pnlBtnProps.setLayout(new BoxLayout(pnlBtnProps, BoxLayout.X_AXIS));
+		pnlBtnProps.add(btnSaveProps);
+		pnlBtnProps.add(btnCancelProps);
+		pnlDesc.add(txtADesc, BorderLayout.CENTER);
+		
+		return pnlFwValue;
 	}
 }
