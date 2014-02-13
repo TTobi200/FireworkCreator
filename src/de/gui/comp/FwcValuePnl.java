@@ -55,6 +55,7 @@ public class FwcValuePnl extends JPanel
 		
 		tabbedPane.addTab("Projekt", null, creProjPnl(), null);
 		tabbedPane.addTab("Eigenschaften", null, creValPnl(), null);
+		tabbedPane.addTab("Fernzünder", null, new FwcRemDetPnl(), null);
 		
 		add(tabbedPane);
 	}
