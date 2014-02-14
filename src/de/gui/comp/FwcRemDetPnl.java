@@ -83,7 +83,7 @@ public class FwcRemDetPnl extends JPanel implements MouseListener
 		
 		creStdBtn(BTN_SEVEN, 159, 300);
 		creStdBtn(BTN_EIGHT, 212, 295);
-		creStdBtn(BTN_NINE, 264, 287);
+		creStdBtn(BTN_NINE, 263, 301);
 		creStdBtn(BTN_TEN, 317, 298);
 		creStdBtn(BTN_ELEVEN, 370, 297);
 		creStdBtn(BTN_TWELVE, 420, 299);
@@ -145,6 +145,7 @@ public class FwcRemDetPnl extends JPanel implements MouseListener
 		System.out.println(getButton(e.getX(), e.getY()));
 		
 		doAction(getButton(e.getX(), e.getY()), false);
+		isLaunching = false;
 	}
 
 	private void doAction(String button, boolean pressed)

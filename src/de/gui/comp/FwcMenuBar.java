@@ -6,11 +6,18 @@
  */
 package de.gui.comp;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class FwcMenuBar extends JMenuBar
+import de.gui.FwcGui;
+import de.gui.dialogs.FwcBaseDialog;
+import de.gui.dialogs.FwcNewProjDialog;
+
+public class FwcMenuBar extends JMenuBar implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -22,10 +29,24 @@ public class FwcMenuBar extends JMenuBar
 	private static final String STR_OPEN_PRJ = "Projekt öffnen";
 	private static final String STR_SAVE_PRJ = "Projekt speichern";
 	private static final String STR_CLOSE = "Beenden";
-	
-	public FwcMenuBar()
+
+	private static final String TITLE_NEW_PROJ = "Neues Projekt";
+
+	private JMenuItem mINewPrj;
+
+	private FwcGui fwcGui;
+
+	private JMenuItem mIOpenPrj;
+
+	private JMenuItem mISavePrj;
+
+	private JMenuItem mIClose;
+
+	public FwcMenuBar(FwcGui fwcGui)
 	{
+		this.fwcGui = fwcGui;
 		init();
+		addListener();
 	}
 
 	private void init()
@@ -34,10 +55,10 @@ public class FwcMenuBar extends JMenuBar
 		JMenu mEdit = new JMenu(STR_EDIT);
 		JMenu mProp = new JMenu(STR_PROP);
 		
-		JMenuItem mINewPrj = new JMenuItem(STR_NEW_PRJ);
-		JMenuItem mIOpenPrj = new JMenuItem(STR_OPEN_PRJ);
-		JMenuItem mISavePrj = new JMenuItem(STR_SAVE_PRJ);
-		JMenuItem mIClose = new JMenuItem(STR_CLOSE);
+		mINewPrj = new JMenuItem(STR_NEW_PRJ);
+		mIOpenPrj = new JMenuItem(STR_OPEN_PRJ);
+		mISavePrj = new JMenuItem(STR_SAVE_PRJ);
+		mIClose = new JMenuItem(STR_CLOSE);
 		
 		mFile.add(mINewPrj);
 		mFile.add(mIOpenPrj);
@@ -47,5 +68,32 @@ public class FwcMenuBar extends JMenuBar
 		this.add(mFile);
 		this.add(mEdit);
 		this.add(mProp);
+	}
+	
+
+	private void addListener()
+	{
+		mINewPrj.addActionListener(this);
+		mIOpenPrj.addActionListener(this);
+		mISavePrj.addActionListener(this);
+		mIClose.addActionListener(this);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		String actionCmd = ((JMenuItem)e.getSource()).getActionCommand();
+		
+		switch(actionCmd)
+		{
+			case STR_NEW_PRJ:
+				FwcNewProjDialog newPrj = new FwcNewProjDialog(fwcGui.getMainFrm(), TITLE_NEW_PROJ);
+				if(newPrj.showIt() == FwcBaseDialog.APPROVE)
+					fwcGui.startPrj(newPrj.getPrjName());
+				break;
+			case STR_SAVE_PRJ:
+				fwcGui.savePrj();
+				break;
+		}
 	}
 }

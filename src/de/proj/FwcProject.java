@@ -21,7 +21,8 @@ public class FwcProject implements Serializable
 	/** Default serialVersionUID */
 	private static final long serialVersionUID = 1L;
 	
-	private static final String DEF_PRJ_EXT = ".fwcP";
+	public static final String DEF_PRJ_EXT = ".fwcP";
+	
 	private String name;
 	private String creDate;
 	private String lastEditDate;
