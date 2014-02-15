@@ -1,25 +1,33 @@
-/*
- * $Header$
- *
- * $Log$
- * Copyright © 2014 Unitechnik AG. All Rights Reserved.
- */
 package de.gui.dialogs;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
+
+import de.gui.comp.FwcBatteryPropPnl;
 
 public class FwcNewFwArtDialog extends FwcBaseDialog
 {
 	private static final long serialVersionUID = 1L;
+	private FwcBatteryPropPnl batPnl;
 
-	public FwcNewFwArtDialog(JFrame owner, String title, boolean modal)
+	public FwcNewFwArtDialog(JFrame owner, String title)
 	{
-		super(owner, title, modal);
+		super(owner, title);
+		pnlData.setLayout(null);
+		init(owner);
 	}
-
-	@Override
-	protected void init()
+	
+	private void init(JFrame owner)
 	{
-		// TODO create new firework article dialog
+		batPnl = new FwcBatteryPropPnl();
+		add(batPnl, BorderLayout.CENTER);
+		pack();
+		setLocationRelativeTo(owner);
+	}
+	
+	public FwcBatteryPropPnl getDataPnl()
+	{
+		return batPnl;
 	}
 }
