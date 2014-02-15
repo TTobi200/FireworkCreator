@@ -1,9 +1,3 @@
-/*
- * $Header$
- *
- * $Log$
- * Copyright © 2014 Unitechnik AG. All Rights Reserved.
- */
 package de.gui.comp;
 
 import java.awt.BorderLayout;

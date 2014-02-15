@@ -1,9 +1,3 @@
-/*
- * $Header$
- *
- * $Log$
- * Copyright © 2014 Unitechnik AG. All Rights Reserved.
- */
 package de.gui;
 
 import java.awt.Dimension;
