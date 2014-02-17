@@ -4,18 +4,30 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 import javax.swing.JPanel;
 
 import de.gui.comp.FwcViewPnl;
 
-public class FcwView extends JPanel
+public class FwcView extends JPanel implements DropTargetListener
 {
 	/** default id */
 	private static final long	serialVersionUID	= 1L;
@@ -39,6 +51,10 @@ public class FcwView extends JPanel
 
 	/** The dimensions to be drawn onto this view */
 	private Dimensions			drawDim;
+	// TODO first implement, maybe remove later
+	/** indicating whether user is currently dragging */
+	@SuppressWarnings("unused")
+	private boolean isDragging;
 
 	/**
 	 * Create a default view and link it with the given viewpanel
@@ -46,7 +62,7 @@ public class FcwView extends JPanel
 	 * @param parent
 	 *            The parent to correspond to.
 	 */
-	public FcwView(FwcViewPnl parent)
+	public FwcView(FwcViewPnl parent)
 	{
 		this.parent = parent;
 
@@ -65,6 +81,8 @@ public class FcwView extends JPanel
 		drawDim = new Dimensions();
 
 		setBackground(Color.WHITE);
+
+		setDropTarget(new DropTarget(this, this));
 	}
 
 	/**
@@ -80,7 +98,6 @@ public class FcwView extends JPanel
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				super.mouseClicked(e);
 			}
 
 			@Override
@@ -92,36 +109,69 @@ public class FcwView extends JPanel
 			@Override
 			public void mouseReleased(MouseEvent e)
 			{
-				super.mouseReleased(e);
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e)
 			{
-				super.mouseEntered(e);
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e)
 			{
-				super.mouseExited(e);
 			}
 
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e)
 			{
-				super.mouseWheelMoved(e);
 			}
 
 			@Override
 			public void mouseDragged(MouseEvent e)
 			{
 				Point p = e.getPoint();
+				
+				int dx = (int)(p.getX() - this.p.getX());
+				int dy = (int)(p.getY() - this.p.getY());
+				
+				// limit x
+				if(dx < 0 && drawDim.getX() != 0 || dx > 0 && drawDim.getX() < WORKPLACE_WIDTH - drawDim.getWidth())
+				{
+					dx += drawDim.getX();
+					
+					if(dx < 0)
+					{
+						dx = 0;
+					}
+					else if(dx > WORKPLACE_WIDTH - drawDim.getWidth())
+					{
+						dx = WORKPLACE_WIDTH - drawDim.getWidth();
+					}
+					
+					drawDim.setX(dx);
+				}
+				
+				// limit y
+				if(dy < 0 && drawDim.getY() != 0 || dy > 0 && drawDim.getY() < WORKPLACE_HEIGHT - drawDim.getHeight())
+				{
+					dy += drawDim.getY();
+					
+					if(dy < 0)
+					{
+						dy = 0;
+					}
+					else if(dy > WORKPLACE_HEIGHT - drawDim.getHeight())
+					{
+						dy = WORKPLACE_HEIGHT - drawDim.getHeight();
+					}
+					
+					drawDim.setY(dy);
+				}
 
-				drawDim.translate((int)(p.getX() - this.p.getX()), (int)(p.getY() - this.p.getY()));
+//				drawDim.translate((int)(p.getX() - this.p.getX()), (int)(p.getY() - this.p.getY()));
 				// drawDim.x += p.getX() - this.p.getX();
 				// drawDim.y += p.getY() - this.p.getY();
-
+				
 				this.p = p;
 
 				repaint();
@@ -206,5 +256,99 @@ public class FcwView extends JPanel
 
 		g.drawImage(bufferImage, 0, 0, getWidth(), getHeight(), -drawDim.getX(), -drawDim.getY(),
 			-drawDim.getX() + drawDim.getWidth(), -drawDim.getY() + drawDim.getHeight(), this);
+	}
+
+	@Override
+	public void dragEnter(DropTargetDragEvent dtde)
+	{
+		isDragging = true;
+	}
+
+	@Override
+	public void dragOver(DropTargetDragEvent dtde)
+	{
+		isDragging = true;
+	}
+
+	@Override
+	public void dropActionChanged(DropTargetDragEvent dtde)
+	{
+		// TODO ???
+	}
+
+	@Override
+	public void dragExit(DropTargetEvent dte)
+	{
+		isDragging = false;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public void drop(DropTargetDropEvent dtde)
+	{
+		isDragging = false;
+		
+		dtde.acceptDrop(DnDConstants.ACTION_COPY);
+
+		BufferedImage img = null;
+		
+		Transferable trans = dtde.getTransferable();
+		try
+		{
+			if(trans.isDataFlavorSupported(new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType)))
+			{
+				// XXX test with tobi and implement
+			}
+			else if (trans.isDataFlavorSupported(DataFlavor.imageFlavor))
+			{
+				img = (BufferedImage)trans.getTransferData(DataFlavor.imageFlavor);
+			}
+			else if (trans.isDataFlavorSupported(DataFlavor.javaFileListFlavor))
+			{
+				List<File> listFiles = (List<File>)trans.getTransferData(DataFlavor.javaFileListFlavor);
+				
+				for(File f : listFiles)
+				{
+					if(f.exists() && f.isFile())
+					{
+						img = FwcImageLoader.loadImage(f);
+						
+						if(img != null)
+						{
+							break;
+						}
+					}
+				}
+			}
+			else if (dtde.getTransferable().isDataFlavorSupported(DataFlavor.stringFlavor))
+			{
+				String imgPath = (String)trans.getTransferData(DataFlavor.stringFlavor);
+				
+				img = FwcImageLoader.loadImage(imgPath);
+			}
+			else if (dtde.getTransferable().isDataFlavorSupported(
+				DataFlavor.getTextPlainUnicodeFlavor()))
+			{
+				String imgPath = (String)trans.getTransferData(DataFlavor.getTextPlainUnicodeFlavor());
+				
+				img = FwcImageLoader.loadImage(imgPath);
+			}
+		}
+		catch(UnsupportedFlavorException | IOException e)
+		{
+			return;
+		}
+		catch(ClassNotFoundException e)
+		{
+			System.out.println("error");
+			return;
+		}
+		
+		if(img == null)
+		{
+			return;
+		}
+		
+		// TODO add Image
 	}
 }

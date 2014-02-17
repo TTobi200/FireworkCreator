@@ -9,7 +9,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import de.gui.comp.view.FcwView;
+import de.gui.comp.view.FwcView;
 
 /**
  * A panel showing the firework-plan graphically
@@ -28,7 +28,7 @@ public class FwcViewPnl extends JPanel
 	/** Slider for adjusting the zoom */
 	private JSlider			slider;
 	/** The view for displaying the whole firework-plan graphically */
-	private FcwView	visual;
+	private FwcView	visual;
 
 	/** The zoom-factor for the view */
 	private double			zoom;
@@ -87,7 +87,7 @@ public class FwcViewPnl extends JPanel
 		
 		zoom = 1d;
 
-		visual = new FcwView(this);
+		visual = new FwcView(this);
 
 		setLayout(new BorderLayout());
 		add(slider, BorderLayout.EAST);
