@@ -29,6 +29,16 @@ public class Dimensions
 		// throw new NullPointerException("observer of a Dimensions cannot be null.");
 		// }
 		// this.observer = observer;
+		
+		this(0, 0, 0, 0);
+	}
+	
+	public Dimensions(int x, int y, int width, int height)
+	{
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
 	}
 
 	/**
@@ -165,5 +175,25 @@ public class Dimensions
 	public boolean contains(Dimensions d)
 	{
 		return x < d.x && y < d.y && getMaxX() > d.getMaxX() && getMaxY() > d.getMaxY();
+	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder(getClass().getSimpleName());
+		
+		return sb
+				.append(" [")
+				.append("x=")
+				.append(x)
+				.append(", y=")
+				.append(y)
+				.append(", width=")
+				.append(width)
+				.append(", height=")
+				.append(height)
+				.append("]")
+				.toString();
+				
 	}
 }
