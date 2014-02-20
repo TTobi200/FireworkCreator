@@ -26,7 +26,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import de.fw.FwcFwArticle;
 import de.gui.comp.FwcViewPnl;
+import de.gui.comp.tools.FwcArtTransfHandler;
 import de.gui.comp.view.draw.FwcDrawableArticle;
 import de.gui.comp.view.draw.FwcDrawableComponent;
 
@@ -312,9 +314,12 @@ public class FwcView extends JPanel implements DropTargetListener
 		Transferable trans = dtde.getTransferable();
 		try
 		{
-			if (trans.isDataFlavorSupported(new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType)))
+			if (trans.isDataFlavorSupported(FwcArtTransfHandler.fwcArtFlavor))
 			{
-				// XXX test with tobi and implement
+				// TODO $DH: use article in view  
+				// NOTE: art can be null when selected node has no article
+				// (Check this first, otherwise do nothing)
+				FwcFwArticle art = (FwcFwArticle)trans.getTransferData(FwcArtTransfHandler.fwcArtFlavor);
 			}
 			else if (trans.isDataFlavorSupported(DataFlavor.imageFlavor))
 			{
@@ -355,11 +360,6 @@ public class FwcView extends JPanel implements DropTargetListener
 		}
 		catch(UnsupportedFlavorException | IOException e)
 		{
-			return;
-		}
-		catch(ClassNotFoundException e)
-		{
-			System.out.println("error");
 			return;
 		}
 

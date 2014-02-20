@@ -1,6 +1,7 @@
 package de.gui.comp;
 
 import java.awt.BorderLayout;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,10 +11,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
+import javax.swing.TransferHandler;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import de.fw.FwcFwArticle;
 import de.fw.FwcFwBattery;
+import de.gui.comp.tools.FwcArtTransfHandler;
 import de.gui.dialogs.FwcBaseDialog;
 import de.gui.dialogs.FwcNewFwArtDialog;
 import de.gui.dialogs.FwcNewProdDialog;
@@ -74,6 +78,9 @@ public class FwcToolsPnl extends JPanel implements ActionListener
 		btnRemove.addActionListener(this);
 		btnUp.addActionListener(this);
 		btnDown.addActionListener(this);
+		
+		fwcTree.setDragEnabled(true);
+		fwcTree.setTransferHandler(new FwcArtTransfHandler());
 		
 		toolBarTree.add(btnAdd);
 		toolBarTree.add(btnRemove);
@@ -195,11 +202,11 @@ public class FwcToolsPnl extends JPanel implements ActionListener
 		double caliber = parseDouble(dataPnl.getFwCalibre());
 		double burnLen = parseDouble(dataPnl.getFwBurnLeng());
 		
-		new FwcFwBattery(name, bamNr, producer, dim, desc, nem,
+		FwcFwBattery bat = new FwcFwBattery(name, bamNr, producer, dim, desc, nem,
 			dangerClass, weight, price, effectHeight, caliber, burnLen);
 		
 		DefaultMutableTreeNode n = (DefaultMutableTreeNode)selPath.getLastPathComponent();
-		n.add(new DefaultMutableTreeNode(name));
+		n.add(new FwcArtNode(name, bat));
 		refreshTree();
 	}
 	

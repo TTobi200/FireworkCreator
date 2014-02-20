@@ -8,8 +8,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import de.gui.FwcGui;
-import de.gui.dialogs.FwcBaseDialog;
-import de.gui.dialogs.FwcNewProjDialog;
 
 public class FwcMenuBar extends JMenuBar implements ActionListener
 {
@@ -23,8 +21,6 @@ public class FwcMenuBar extends JMenuBar implements ActionListener
 	private static final String STR_OPEN_PRJ = "Projekt öffnen";
 	private static final String STR_SAVE_PRJ = "Projekt speichern";
 	private static final String STR_CLOSE = "Beenden";
-
-	private static final String TITLE_NEW_PROJ = "Neues Projekt";
 
 	private JMenuItem mINewPrj;
 
@@ -81,12 +77,13 @@ public class FwcMenuBar extends JMenuBar implements ActionListener
 		switch(actionCmd)
 		{
 			case STR_NEW_PRJ:
-				FwcNewProjDialog newPrj = new FwcNewProjDialog(fwcGui.getMainFrm(), TITLE_NEW_PROJ);
-				if(newPrj.showIt() == FwcBaseDialog.APPROVE)
-					fwcGui.startPrj(newPrj.getPrjName());
+				fwcGui.startPrj();
 				break;
 			case STR_SAVE_PRJ:
 				fwcGui.savePrj();
+				break;
+			case STR_OPEN_PRJ:
+				fwcGui.loadPrj();
 				break;
 		}
 	}
