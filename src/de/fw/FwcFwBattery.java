@@ -6,20 +6,20 @@ public class FwcFwBattery extends FwcFwBombPipes
 
 	private double burnLen;
 
-	public FwcFwBattery(String name, String bamNr, String producer, String dim, 
+	public FwcFwBattery(String name, String imgPath, String bamNr, String producer, String dim, 
 					String desc, int nem, int dangerClass, double weight, double price,
 					int effectHeight, double caliber, double burnLen)
 	{
-		super(name, bamNr, producer, dim, desc, nem, dangerClass, weight, price, effectHeight, caliber);
+		super(name,imgPath, bamNr, producer, dim, desc, nem, dangerClass, weight, price, effectHeight, caliber);
 		this.burnLen = burnLen;
 	}
 
-	protected double getBurnLen()
+	public double getBurnLen()
 	{
 		return burnLen;
 	}
 
-	protected void setBurnLen(double burnLen)
+	public void setBurnLen(double burnLen)
 	{
 		this.burnLen = burnLen;
 	}

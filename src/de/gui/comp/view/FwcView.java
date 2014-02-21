@@ -320,6 +320,7 @@ public class FwcView extends JPanel implements DropTargetListener
 				// NOTE: art can be null when selected node has no article
 				// (Check this first, otherwise do nothing)
 				FwcFwArticle art = (FwcFwArticle)trans.getTransferData(FwcArtTransfHandler.fwcArtFlavor);
+				img = FwcImageLoader.loadImage(art.getImgPath());
 			}
 			else if (trans.isDataFlavorSupported(DataFlavor.imageFlavor))
 			{

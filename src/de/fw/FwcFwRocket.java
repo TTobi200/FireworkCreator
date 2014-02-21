@@ -6,11 +6,11 @@ public class FwcFwRocket extends FwcFwArticle
 	private double flyHeight;
 	private String bucketEff;
 
-	public FwcFwRocket(String name,String bamNr, String producer,String dim, 
+	public FwcFwRocket(String name, String imgPath,String bamNr, String producer,String dim, 
 					String desc, int nem, int dangerClass, double weight, double price,
 					double flyHeight, String bucketEff)
 	{
-		super(name, bamNr, producer, dim, desc, nem, dangerClass, weight, price);
+		super(name, imgPath, bamNr, producer, dim, desc, nem, dangerClass, weight, price);
 		this.setFlyHeight(flyHeight);
 		this.setBucketEff(bucketEff);
 	}

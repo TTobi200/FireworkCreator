@@ -1,7 +1,6 @@
 package de.gui.comp;
 
 import java.awt.BorderLayout;
-import java.awt.datatransfer.DataFlavor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,18 +10,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
-import javax.swing.TransferHandler;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import de.fw.FwcFwArticle;
 import de.fw.FwcFwBattery;
 import de.gui.comp.tools.FwcArtTransfHandler;
 import de.gui.dialogs.FwcBaseDialog;
 import de.gui.dialogs.FwcNewFwArtDialog;
 import de.gui.dialogs.FwcNewProdDialog;
 
-public class FwcToolsPnl extends JPanel implements ActionListener
+public class FwcToolsPnl extends JPanel implements ActionListener, TreeSelectionListener
 {
 	private static final long serialVersionUID = 1L;
 	private static final String IMG_FOL_PATH = "img/";
@@ -48,6 +47,7 @@ public class FwcToolsPnl extends JPanel implements ActionListener
 	private JButton btnAdd;
 	private JButton btnUp;
 	private JButton btnDown;
+	
 	private JFrame mainframe;
 	
 	public FwcToolsPnl(JFrame mainframe)
@@ -81,6 +81,7 @@ public class FwcToolsPnl extends JPanel implements ActionListener
 		
 		fwcTree.setDragEnabled(true);
 		fwcTree.setTransferHandler(new FwcArtTransfHandler());
+		fwcTree.addTreeSelectionListener(this);
 		
 		toolBarTree.add(btnAdd);
 		toolBarTree.add(btnRemove);
@@ -174,7 +175,7 @@ public class FwcToolsPnl extends JPanel implements ActionListener
 				newProd = new FwcNewFwArtDialog(mainframe,node + " " + TITLE_BAT_DIA);
 				if(newProd.showIt() == FwcBaseDialog.APPROVE)
 				{
-					creBattery(selPath, newProd.getDataPnl());
+					creBattery(selPath);
 				}
 				break;
 			}
@@ -187,51 +188,32 @@ public class FwcToolsPnl extends JPanel implements ActionListener
 		}
 	}
 
-	private void creBattery(TreePath selPath, FwcBatteryPropPnl dataPnl)
+	private void creBattery(TreePath selPath)
 	{
-		String name = dataPnl.getFwName();
-		String bamNr = dataPnl.getFwBAMNr();
-		String producer = dataPnl.getFwProd();
-		String dim = dataPnl.getFwDim();
-		String desc = dataPnl.getFwDesc();
-		int nem = parseInt(dataPnl.getFwNEM());
-		int dangerClass = parseInt(dataPnl.getFwCat());
-		double weight = parseDouble(dataPnl.getFwWeigth());
-		double price = parseDouble(dataPnl.getFwPrice());
-		int effectHeight = parseInt(dataPnl.getFwEffektHeigth());
-		double caliber = parseDouble(dataPnl.getFwCalibre());
-		double burnLen = parseDouble(dataPnl.getFwBurnLeng());
-		
-		FwcFwBattery bat = new FwcFwBattery(name, bamNr, producer, dim, desc, nem,
-			dangerClass, weight, price, effectHeight, caliber, burnLen);
+		FwcFwBattery bat = (FwcFwBattery)FwcFwPropPnl.getArticleData();
 		
 		DefaultMutableTreeNode n = (DefaultMutableTreeNode)selPath.getLastPathComponent();
-		n.add(new FwcArtNode(name, bat));
+		n.add(new FwcArtNode(bat.getName(), bat));
 		refreshTree();
-	}
-	
-	private double parseDouble(String val)
-	{
-		double ret = 0;
-		if(val.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"))
-		{
-			ret = Double.parseDouble(val);
-		}
-		return ret;
-	}
-
-	private int parseInt(String val)
-	{
-		int ret = 0;
-		if(val.matches("^\\d+$"))
-		{
-			ret = Integer.parseInt(val);
-		}
-		return ret;
 	}
 
 	private void refreshTree()
 	{
 		fwcTree.updateUI();
+	}
+
+	@Override
+	public void valueChanged(TreeSelectionEvent e)
+	{
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)fwcTree.getLastSelectedPathComponent();
+		if(node instanceof FwcArtNode)
+		{
+			FwcFwPropPnl.displayArticle(((FwcArtNode)node).getArticle());
+			FwcValuePnl.addPropPnl();
+		}
+		else
+		{
+			FwcFwPropPnl.clear();
+		}
 	}
 }

@@ -7,31 +7,31 @@ public class FwcFwBombPipes extends FwcFwArticle
 	private int effectHeight;
 	private double caliber;
 
-	public FwcFwBombPipes(String name, String bamNr, String producer, String dim,
+	public FwcFwBombPipes(String name,String imgPath, String bamNr, String producer, String dim,
 					String desc, int nem, int dangerClass, double weight, double price,
 					int effectHeight, double caliber)
 	{
-		super(name, bamNr, producer, dim, desc, nem, dangerClass, weight, price);
+		super(name, imgPath, bamNr, producer, dim, desc, nem, dangerClass, weight, price);
 		this.effectHeight = effectHeight;
 		this.caliber = caliber;
 	}
 	
-	protected int getEffectHeight()
+	public int getEffectHeight()
 	{
 		return effectHeight;
 	}
 
-	protected void setEffectHeight(int effectHeight)
+	public void setEffectHeight(int effectHeight)
 	{
 		this.effectHeight = effectHeight;
 	}
 	
-	protected double getCaliber()
+	public double getCaliber()
 	{
 		return caliber;
 	}
 	
-	protected void setCaliber(double caliber)
+	public void setCaliber(double caliber)
 	{
 		this.caliber = caliber;
 	}

@@ -35,6 +35,7 @@ public class FwcGui
 	
 	public static FwcProject project;
 	private JFrame mainframe;
+	private FwcValuePnl pnlValues;
 
 	/**
 	 * Constructor to create a {@link FwcGui}.
@@ -79,7 +80,7 @@ public class FwcGui
 		JSplitPane splitSub = new JSplitPane();
 		JPanel pnlTools = new FwcToolsPnl(mainframe);
 		JPanel pnlViewF = new FwcViewPnl();
-		JPanel pnlValues = new FwcValuePnl();
+		pnlValues = new FwcValuePnl();
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};

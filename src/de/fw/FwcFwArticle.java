@@ -6,14 +6,16 @@ public class FwcFwArticle implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	private static final String DEF_BAM_NR = "Keine BAM NR.";
-	private static final String DEF_PRODUCER = "Kein Hersteller";
-	private static final String DEF_DIM = "Keine Abmessungen";
-	private static final String DEF_DESC = "Keine Beschreibung";
-	private static final int DEF_NEM = 0;
-	private static final int DEF_DANGER_CLASS = -1;
-	private static final double DEF_WEIGHT = 0;
-	private static final double DEF_PRICE = 0;
+	protected static final String DEF_BAM_NR = "Keine BAM NR.";
+	protected static final String DEF_PRODUCER = "Kein Hersteller";
+	protected static final String DEF_DIM = "Keine Abmessungen";
+	protected static final String DEF_DESC = "Keine Beschreibung";
+	protected static final String DEF_PATH = "Kein Bildpfad verfügbar";
+	protected static final int DEF_NEM = 0;
+	protected static final int DEF_DANGER_CLASS = -1;
+	protected static final double DEF_WEIGHT = 0;
+	protected static final double DEF_PRICE = 0;
+
 	
 	private String name;
 	private String bamNr;
@@ -24,52 +26,10 @@ public class FwcFwArticle implements Serializable
 	private int dangerClass;
 	private double weight;
 	private double price;
-	
-	public FwcFwArticle(String name)
-	{
-		this(name, DEF_BAM_NR);
-	}
 
-	public FwcFwArticle(String name ,String bamNr)
-	{
-		this(name, bamNr, DEF_PRODUCER);
-	}
-	
-	public FwcFwArticle(String name,String bamNr, String producer)
-	{
-		this(name, bamNr, producer, DEF_DIM);
-	}
-	
-	public FwcFwArticle(String name,String bamNr, String producer, String dim)
-	{
-		this(name, bamNr, producer, dim, DEF_DESC);
-	}
-	
-	public FwcFwArticle(String name,String bamNr, String producer,String dim, 
-					String desc)
-	{
-		this(name, bamNr, producer, dim, desc, DEF_NEM);
-	}
-	
-	public FwcFwArticle(String name,String bamNr, String producer,String dim, 
-					String desc, int nem)
-	{
-		this(name, bamNr, producer, dim, desc, nem, DEF_DANGER_CLASS);
-	}
-	
-	public FwcFwArticle(String name,String bamNr, String producer,String dim,
-					String desc, int nem, int dangerClass)
-	{
-		this(name, bamNr, producer, dim, desc, nem, dangerClass, DEF_WEIGHT);
-	}
-	
-	public FwcFwArticle(String name,String bamNr, String producer,String dim, 
-					String desc,int nem, int dangerClass, double weight)
-	{
-		this(name, bamNr, producer, dim, desc, nem, dangerClass, weight, DEF_PRICE);
-	}
-	
-	public FwcFwArticle(String name,String bamNr, String producer,String dim, 
+	private String imgPath;
+		
+	public FwcFwArticle(String name, String imgPath, String bamNr, String producer,String dim, 
 					String desc, int nem, int dangerClass, double weight, double price)
 	{
 		this.name = name;
@@ -81,6 +41,7 @@ public class FwcFwArticle implements Serializable
 		this.dangerClass = dangerClass;
 		this.weight = weight;
 		this.price = price;
+		this.imgPath = imgPath;
 	}
 
 	public String getName()
@@ -171,5 +132,15 @@ public class FwcFwArticle implements Serializable
 	public void setDesc(String desc)
 	{
 		this.desc = desc;
+	}
+
+	public String getImgPath()
+	{
+		return imgPath;
+	}
+
+	public void setPath(String path)
+	{
+		this.imgPath = path;
 	}
 }

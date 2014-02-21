@@ -4,12 +4,11 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-import de.gui.comp.FwcBatteryPropPnl;
+import de.gui.comp.FwcFwPropPnl;
 
 public class FwcNewFwArtDialog extends FwcBaseDialog
 {
 	private static final long serialVersionUID = 1L;
-	private FwcBatteryPropPnl batPnl;
 
 	public FwcNewFwArtDialog(JFrame owner, String title)
 	{
@@ -20,14 +19,8 @@ public class FwcNewFwArtDialog extends FwcBaseDialog
 	
 	private void init(JFrame owner)
 	{
-		batPnl = new FwcBatteryPropPnl();
-		add(batPnl, BorderLayout.CENTER);
+		add(FwcFwPropPnl.getInstance(), BorderLayout.CENTER);
 		pack();
 		setLocationRelativeTo(owner);
-	}
-	
-	public FwcBatteryPropPnl getDataPnl()
-	{
-		return batPnl;
 	}
 }

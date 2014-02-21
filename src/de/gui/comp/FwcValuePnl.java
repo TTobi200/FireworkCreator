@@ -9,6 +9,7 @@ public class FwcValuePnl extends JPanel
 {
 	/** Default generated serialVersionUID */
 	private static final long serialVersionUID = 1L;
+	private static JTabbedPane tabbedPane;
 	
 	/**
 	 * Constructor to create a {@link FwcValuePnl}
@@ -29,12 +30,18 @@ public class FwcValuePnl extends JPanel
 	{
 		setLayout(new BorderLayout(0, 0));
 
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
 		tabbedPane.addTab("Projekt", null, new FwcPrjPnl(), null);
-		tabbedPane.addTab("Eigenschaften", null, new FwcBatteryPropPnl(), null);
 		tabbedPane.addTab("Fernzünder", null, new FwcRemDetPnl(), null);
+		tabbedPane.addTab("Eigenschaften", null, FwcFwPropPnl.getInstance(), null);
 		
 		add(tabbedPane);		
+	}
+	
+	public static void addPropPnl()
+	{
+		tabbedPane.addTab("Eigenschaften", null, FwcFwPropPnl.getInstance(), null);
+		tabbedPane.setSelectedComponent(FwcFwPropPnl.getInstance());
 	}
 }
