@@ -103,6 +103,11 @@ public class FwcImageLoader
 			return null;
 		}
 
+		if(img == null)
+		{
+			return null;
+		}
+		
 		BufferedImage better = gc.createCompatibleImage(img.getWidth(), img.getHeight(),
 			Transparency.BITMASK);
 		Graphics g = better.getGraphics();
