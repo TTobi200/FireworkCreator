@@ -196,4 +196,9 @@ public class Dimensions
 				.toString();
 				
 	}
+
+	public boolean contains(int x2, int y2)
+	{
+		return contains(new Dimensions(x2, y2, 0, 0));
+	}
 }

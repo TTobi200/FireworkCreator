@@ -35,34 +35,37 @@ import de.gui.comp.view.draw.FwcDrawableComponent;
 public class FwcView extends JPanel implements DropTargetListener
 {
 	/** default id */
-	private static final long serialVersionUID = 1L;
+	private static final long			serialVersionUID	= 1L;
 
 	/** Max width of the workplace to draw at. */
-	private static final int WORKPLACE_WIDTH = 10000;
+	private static final int			WORKPLACE_WIDTH		= 10000;
 	/** Max height of the workplace to draw at. */
-	private static final int WORKPLACE_HEIGHT = 10000;
+	private static final int			WORKPLACE_HEIGHT	= 10000;
 
 	/**
 	 * The image for buffering the the whole drawing.<br>
-	 * Everything to draw will first be drawn on this image, which will
-	 * afterwards be drawn zoomed
+	 * Everything to draw will first be drawn on this image, which will afterwards be drawn zoomed
 	 * and translated on this component.
 	 */
-	private Image bufferImage;
+	private Image						bufferImage;
 	/** boolean indicating whether this component is currently painting */
-	private boolean painting;
+	private boolean						painting;
 
 	/** The viewpanel this view is placed in. */
-	private FwcViewPnl parent;
+	private FwcViewPnl					parent;
 
 	/** The dimensions to be drawn onto this view */
-	private Dimensions drawDim;
+	private Dimensions					drawDim;
 	// TODO first implement, maybe remove later
 	/** indicating whether user is currently dragging */
 	@SuppressWarnings("unused")
-	private boolean isDragging;
+	private boolean						isDragging;
 
-	private List<FwcDrawableComponent> listDrawables;
+	private List<FwcDrawableComponent>	listDrawables;
+
+	private FwcViewImageManager			imageManager;
+	
+	private FwcDrawableArticle selected;
 
 	/**
 	 * Create a default view and link it with the given viewpanel
@@ -93,6 +96,9 @@ public class FwcView extends JPanel implements DropTargetListener
 		setDropTarget(new DropTarget(this, this));
 
 		listDrawables = new ArrayList<>();
+
+		imageManager = new FwcViewImageManager(new Dimensions(0, 0, WORKPLACE_WIDTH,
+				WORKPLACE_HEIGHT));
 	}
 
 	/**
@@ -103,7 +109,7 @@ public class FwcView extends JPanel implements DropTargetListener
 		MouseAdapter ma = new MouseAdapter()
 		{
 			/** The last saved Mouse-position */
-			private Point p;
+			private Point	p;
 
 			@Override
 			public void mouseClicked(MouseEvent e)
@@ -114,6 +120,21 @@ public class FwcView extends JPanel implements DropTargetListener
 			public void mousePressed(MouseEvent e)
 			{
 				p = e.getPoint();
+				
+				// TODO for test purposes
+				// TODO picking of object doesn't work correctly
+				if(selected != null)
+				{
+					selected.setSelected(false);
+				}
+				selected = (FwcDrawableArticle)imageManager.pickDrawable((int)p.getX(), (int)p.getY());
+				
+				if(selected != null)
+				{
+					selected.setSelected(true);
+				}
+				
+				System.out.println(selected);
 			}
 
 			@Override
@@ -141,53 +162,20 @@ public class FwcView extends JPanel implements DropTargetListener
 			{
 				Point p = e.getPoint();
 
-				int dx = (int)(this.p.getX() - p.getX());
-				int dy = (int)(this.p.getY() - p.getY());
-
-				// limit x
-				if(dx < 0 && drawDim.getX() != 0 || dx > 0
-				   && drawDim.getX() < WORKPLACE_WIDTH - drawDim.getWidth())
+				int dx = (int)(p.getX() - this.p.getX());
+				int dy = (int)(p.getY() - this.p.getY());
+				
+				if(selected == null)
 				{
-					dx += drawDim.getX();
-
-					if(dx < 0)
-					{
-						dx = 0;
-					}
-					else if(dx > WORKPLACE_WIDTH - drawDim.getWidth())
-					{
-						dx = WORKPLACE_WIDTH - drawDim.getWidth();
-					}
-
-					drawDim.setX(dx);
+					moveDimensions(drawDim, -dx, -dy);
 				}
-
-				// limit y
-				if(dy < 0 && drawDim.getY() != 0 || dy > 0
-				   && drawDim.getY() < WORKPLACE_HEIGHT - drawDim.getHeight())
+				else
 				{
-					dy += drawDim.getY();
-
-					if(dy < 0)
-					{
-						dy = 0;
-					}
-					else if(dy > WORKPLACE_HEIGHT - drawDim.getHeight())
-					{
-						dy = WORKPLACE_HEIGHT - drawDim.getHeight();
-					}
-
-					drawDim.setY(dy);
+					moveDimensions(selected.getDimensions(), dx, dy);
 				}
-
-				// drawDim.translate((int)(p.getX() - this.p.getX()),
-				// (int)(p.getY() -
-				// this.p.getY()));
-				// drawDim.x += p.getX() - this.p.getX();
-				// drawDim.y += p.getY() - this.p.getY();
 
 				this.p = p;
-
+				
 				repaint();
 			}
 
@@ -217,6 +205,45 @@ public class FwcView extends JPanel implements DropTargetListener
 		addMouseMotionListener(ma);
 		addComponentListener(ca);
 	}
+	
+	private void moveDimensions(Dimensions dim, int x, int y)
+	{
+		// limit x
+		if (x < 0 && dim.getX() != 0 || x > 0
+				&& dim.getX() < WORKPLACE_WIDTH - dim.getWidth())
+		{
+			x += dim.getX();
+
+			if (x < 0)
+			{
+				x = 0;
+			}
+			else if (x > WORKPLACE_WIDTH - dim.getWidth())
+			{
+				x = WORKPLACE_WIDTH - dim.getWidth();
+			}
+
+			dim.setX(x);
+		}
+
+		// limit y
+		if (y < 0 && dim.getY() != 0 || y > 0
+				&& dim.getY() < WORKPLACE_HEIGHT - dim.getHeight())
+		{
+			y += dim.getY();
+
+			if (y < 0)
+			{
+				y = 0;
+			}
+			else if (y > WORKPLACE_HEIGHT - dim.getHeight())
+			{
+				y = WORKPLACE_HEIGHT - dim.getHeight();
+			}
+
+			dim.setY(y);
+		}
+	}
 
 	/**
 	 * INform this view that the zoom to be applied has changed.
@@ -228,8 +255,7 @@ public class FwcView extends JPanel implements DropTargetListener
 
 	/**
 	 * Recalculate the rectangle for drawing of this class.<br>
-	 * This method is specially needed every time this' component's size or the
-	 * zoom has changed.
+	 * This method is specially needed every time this' component's size or the zoom has changed.
 	 */
 	private void recalcDrawDimensions()
 	{
@@ -244,13 +270,11 @@ public class FwcView extends JPanel implements DropTargetListener
 	 */
 	private void createImage()
 	{
-		Image bufferImage = new BufferedImage(WORKPLACE_WIDTH,
-			WORKPLACE_HEIGHT,
-			BufferedImage.TYPE_INT_ARGB);
+		Image bufferImage = new BufferedImage(WORKPLACE_WIDTH, WORKPLACE_HEIGHT,
+				BufferedImage.TYPE_INT_ARGB);
 
 		// don't replace img while painting
-		while(painting)
-			;
+		while(painting);
 		this.bufferImage = bufferImage;
 	}
 
@@ -262,24 +286,19 @@ public class FwcView extends JPanel implements DropTargetListener
 
 		Graphics g2 = bufferImage.getGraphics();
 
+		g2.setColor(Color.WHITE);
+		g2.fillRect(drawDim.getX(), drawDim.getY(), drawDim.getWidth(), drawDim.getHeight());
 		// TODO just test drawing
 		{
 			g2.setColor(Color.BLACK);
 			g2.fillOval(0, 0, 100, 100);
 		}
-
-		for(FwcDrawableComponent d : listDrawables)
-		{
-			if(d.getDimensions().intersects(drawDim))
-			{
-				d.draw(g2);
-			}
-		}
+		
+		imageManager.drawOn(g2, drawDim);
 
 		g2.dispose();
 
-		g.drawImage(bufferImage, 0, 0, getWidth(), getHeight(), drawDim.getX(),
-			drawDim.getY(),
+		g.drawImage(bufferImage, 0, 0, getWidth(), getHeight(), drawDim.getX(), drawDim.getY(),
 			drawDim.getMaxX(), drawDim.getMaxY(), this);
 	}
 
@@ -313,93 +332,101 @@ public class FwcView extends JPanel implements DropTargetListener
 	{
 		isDragging = false;
 
-
 		BufferedImage img = null;
 
 		Transferable trans = dtde.getTransferable();
 		try
 		{
-			if(trans.isDataFlavorSupported(FwcArtTransfHandler.fwcArtFlavor))
+			if (trans.isDataFlavorSupported(FwcArtTransfHandler.fwcArtFlavor))
 			{
 				// TODO $DH: use article in view
 				// NOTE: art can be null when selected node has no article
 				// (Check this first, otherwise do nothing)
-				if(trans.isDataFlavorSupported(FwcArtTransfHandler.fwcArtFlavor))
+				if (trans.isDataFlavorSupported(FwcArtTransfHandler.fwcArtFlavor))
 				{
 					// controlif possible
-//					dtde.acceptDrop(DnDConstants.ACTION_LINK);
+					// dtde.acceptDrop(DnDConstants.ACTION_LINK);
 					dtde.acceptDrop(DnDConstants.ACTION_COPY);
-					
-					FwcFwArticle art = (FwcFwArticle)trans.getTransferData(FwcArtTransfHandler.fwcArtFlavor);
-					
+
+					FwcFwArticle art = (FwcFwArticle)trans
+							.getTransferData(FwcArtTransfHandler.fwcArtFlavor);
+
 					// TODO $Tobi art is a copy, not the reference
-					if(art != null)
+					if (art != null)
 					{
 						img = FwcImageLoader.loadImage(art.getImgPath());
 					}
 				}
 			}
-			else if(trans.isDataFlavorSupported(DataFlavor.imageFlavor))
+			else if (trans.isDataFlavorSupported(DataFlavor.imageFlavor))
 			{
 				dtde.acceptDrop(DnDConstants.ACTION_COPY);
 				img = (BufferedImage)trans.getTransferData(DataFlavor.imageFlavor);
 			}
-			else if(trans.isDataFlavorSupported(DataFlavor.javaFileListFlavor))
+			else if (trans.isDataFlavorSupported(DataFlavor.javaFileListFlavor))
 			{
 				dtde.acceptDrop(DnDConstants.ACTION_COPY);
 				List<File> listFiles = (List<File>)trans
-					.getTransferData(DataFlavor.javaFileListFlavor);
+						.getTransferData(DataFlavor.javaFileListFlavor);
 
 				for(File f : listFiles)
 				{
-					if(f.exists() && f.isFile())
+					if (f.exists() && f.isFile())
 					{
 						img = FwcImageLoader.loadImage(f);
 
-						if(img != null)
+						if (img != null)
 						{
 							break;
 						}
 					}
 				}
 			}
-			else if(dtde.getTransferable().isDataFlavorSupported(
-				DataFlavor.stringFlavor))
+			else if (dtde.getTransferable().isDataFlavorSupported(DataFlavor.stringFlavor))
 			{
 				dtde.acceptDrop(DnDConstants.ACTION_COPY);
 				String imgPath = (String)trans.getTransferData(DataFlavor.stringFlavor);
 
 				img = FwcImageLoader.loadImage(imgPath);
 			}
-			else if(dtde.getTransferable().isDataFlavorSupported(
+			else if (dtde.getTransferable().isDataFlavorSupported(
 				DataFlavor.getTextPlainUnicodeFlavor()))
 			{
 				dtde.acceptDrop(DnDConstants.ACTION_COPY);
 				String imgPath = (String)trans.getTransferData(DataFlavor
-					.getTextPlainUnicodeFlavor());
+						.getTextPlainUnicodeFlavor());
 
 				img = FwcImageLoader.loadImage(imgPath);
 			}
 		}
 		catch(UnsupportedFlavorException | IOException e)
 		{
-			dtde.rejectDrop();
 			return;
 		}
 
-		if(img == null)
+		if (img == null)
 		{
-			dtde.rejectDrop();
 			return;
 		}
-		
+
 		dtde.getDropTargetContext().dropComplete(true);
 
-		FwcDrawableArticle d = new FwcDrawableArticle(null, img,
-			new Dimensions(dtde.getLocation().x,
-				dtde.getLocation().y, img.getWidth(), img.getHeight()));
+		Dimensions dim = new Dimensions(dtde.getLocation().x, dtde.getLocation().y, img.getWidth(), img.getHeight());
+		dim.translate(-dim.getWidth() / 2, -dim.getHeight() / 2);
+		
+		if(dim.getX() < 0)
+		{
+			dim.setX(0);
+		}
+		if(dim.getY() < 0)
+		{
+			dim.setY(0);
+		}
+		FwcDrawableArticle d = new FwcDrawableArticle(null, img, new Dimensions(
+				dtde.getLocation().x, dtde.getLocation().y, img.getWidth(), img.getHeight()));
 
 		listDrawables.add(d);
+		imageManager.addDrawable(d);
 
 		repaint();
 		// TODO add Image

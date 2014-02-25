@@ -1,5 +1,6 @@
 package de.gui.comp.view.draw;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -20,6 +21,7 @@ public class FwcDrawableArticle implements FwcDrawableComponent
 	private BufferedImage	img;
 	/** The {@link Dimensions} of this component */
 	private Dimensions		dim;
+	private boolean selected;
 
 	/**
 	 * Create a drawablearticle symbolizing the given article with the given image.
@@ -61,12 +63,28 @@ public class FwcDrawableArticle implements FwcDrawableComponent
 		{
 			this.dim = new Dimensions(0, 0, img.getWidth(), img.getHeight());
 		}
+		
+		selected = false;
 	}
 
 	@Override
 	public void draw(Graphics g)
 	{
 		g.drawImage(img, dim.getX(), dim.getY(), dim.getWidth(), dim.getHeight(), null);
+		
+		if(selected)
+		{
+			g.setColor(Color.BLUE);
+			g.drawRect(dim.getX() - 1, dim.getY() - 1, dim.getWidth() + 2, dim.getHeight() + 2);
+			g.drawRect(dim.getX() - 3, dim.getY() - 3, dim.getWidth() + 6, dim.getHeight() + 6);
+			g.setColor(Color.BLACK);
+			g.drawRect(dim.getX() - 2, dim.getY() - 2, dim.getWidth() + 4, dim.getHeight() + 4);
+		}
+	}
+	
+	public void setSelected(boolean selected)
+	{
+		this.selected = selected;
 	}
 
 	@Override
