@@ -1,4 +1,4 @@
-FireworkCreator
+FireworkCreator (Closed June 2014)
 ===============
 This tool should later be used to create your own "firework plan".
 It is an graphical editor for creting simple plans and
