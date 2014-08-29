@@ -17,4 +17,4 @@ It consists of three panels:
     
     
 __________________________________________________________________________
-Developpers:  TTobi200; dennis.H
+Developpers:  TTobi200; Dauerdaddlah
